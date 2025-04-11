@@ -52,6 +52,7 @@
         }
 
     </style>
+    <title></title>
 
 </head>
 <body>
@@ -96,7 +97,7 @@
                         <table>
                             <tr><td>Transport</td><td id="transport">0</td></tr>
                             <tr><td>Gathering</td><td id="gathering">0</td></tr>
-                            <tr><td>Gifts</td><td id="gifts">0</td></tr>
+                            <tr><td>Gifts</td><td id="gift">0</td></tr>
                             <tr><td>Housing</td><td id="housing">0</td></tr>
                             <tr><td>Clothing</td><td id="clothing">0</td></tr>
                             <tr><td>Entertainment</td><td id="enterinment">0</td></tr>
@@ -118,16 +119,45 @@
     </div>
     <br>
 
-    <button id="statement" onclick="download_pdf()">Export PDF</button>
+    <button id="statement">Export PDF</button>
 
-    <script>
-        function download_pdf() {
-            const statment = document.getElementById('statement');
-            statement.style.display = 'none'; 
-            window.print();
+    <script type="module">
+        import {getCat, getTransactions, saveTransaction} from "./dataprocess.js";
 
-            statement.style.display = 'block'
-        }
+        window.addEventListener("DOMContentLoaded", () => {
+
+            console.log("test");
+
+            let statement = document.querySelector("#statement");
+
+            function download_pdf() {
+                statement.style.display = 'none';
+                window.print();
+
+                statement.style.display = 'block'
+            }
+
+            statement.onclick = download_pdf;
+
+            let todo = (transactions) => {
+                console.log(transactions);
+                transactions.forEach(tr => {
+                    console.log(tr);
+                    let com = document.querySelector(`#${tr.subCategory.toLowerCase()}`)
+                    if (com) {
+                        console.log(com.innerHTML);
+                        com.innerHTML = parseFloat(com.innerHTML) + tr.amount;
+                    }
+
+                })
+            }
+
+            getTransactions(todo);
+
+        })
+
     </script>
+    <script src="./ProfitLoss.js" type="module"></script>
+
 </body>
 </html>

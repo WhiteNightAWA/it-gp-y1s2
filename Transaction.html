@@ -21,11 +21,18 @@
             width: 90%;
             padding-left: 0.5em;
             padding-right: 0.5em;
-            margin: 0.5em;
-            box-shadow: 0 0 5px #ccc;
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }
+        .record-cont {
+            width: 90%;
+            padding-left: 0.5em;
+            padding-right: 0.5em;
+            margin: 0.5em;
+            box-shadow: 0 0 5px #ccc;
+            display: flex;
+            flex-direction: column;
         }
 
         #container, #record-container {
@@ -44,7 +51,6 @@
     <h1>Transactions</h1>
     <button id="addBtn">+Add Transaction</button>
     <iframe src="./AddTransaction.html" id="addTransaction-box" class="hidden"></iframe>
-    <button id="reloadBtn">Reload Transaction</button>
     <div id="record-container"></div>
 </div>
 </body>

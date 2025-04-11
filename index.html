@@ -24,6 +24,9 @@
             z-index: 1;
             width: 25%;
             box-shadow: rgba(0, 0, 0, 0.2) 0 0 1em 1px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         #outlet {
@@ -35,6 +38,7 @@
         #menu-switch {
             list-style: none;
             padding: 0;
+            width: 100%;
         }
 
         .menuBtn {
@@ -61,8 +65,7 @@
 <main>
 
     <nav id="drawer">
-        <img id="user-avatar" src="" alt="avatar">
-        <h3 id="username"></h3>
+        <h3 id="username">Money Pro Max</h3>
         <ul id="menu-switch"></ul>
     </nav>
     <iframe
@@ -91,16 +94,13 @@
 
     window.addEventListener("DOMContentLoaded", () => {
         const routeMap = {
-            "Home": "404.html",
+            "Home": "Home.html",
             "Transaction": "Transaction.html",
             "Trend": "404.html",
             "Goals": "Saving_goal_reward.html",
             "Balance": "404.html",
             "Chart": "404.html",
-            "Activity Log": "404.html",
             "Export Excel": "Profit&Loss.html",
-            "Login": "404.html",
-            "Setting": "404.html"
         }
 
         let parent = document.querySelector("#menu-switch");
@@ -108,7 +108,7 @@
             let menuItem = document.createElement("li");
             let menuItemIcon = document.createElement("img");
             let menuItemText = document.createElement("span");
-            menuItemIcon.src = `./icons/${tab}.png`;
+            menuItemIcon.src = `./icons/${tab}.jpg`;
             menuItemIcon.classList.add("menuItemIcon");
             menuItemText.innerText = tab;
             menuItem.appendChild(menuItemIcon);
