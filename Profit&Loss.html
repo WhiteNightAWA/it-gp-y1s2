@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: 'Century Gothic', sans-serif;
+            font-size: 10pt;
+            margin: 50px;
+            background-color: white;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 2px solid #fbfafa;
+            padding: 9px;
+            text-align: left;
+        }
+        .title {
+            font-size: 20pt;
+            font-weight: bold;
+            text-align: center;
+            background-color: #FFFFFF;
+            -webkit-print-color-adjust: exact; 
+            color-adjust: exact;         
+        }
+        .income, .expenses, .net-income {
+            font-weight: bold;
+            background-color: #bec7d37b !important; 
+            padding: 9px;
+            color: #000000 !important;
+            -webkit-print-color-adjust: exact; 
+            color-adjust: exact;/
+        }
+        .total {
+            font-weight: bold;
+            background-color: #f0f2f8 !important;
+            color: #000000 !important;
+            -webkit-print-color-adjust: exact; 
+            color-adjust: exact;
+        }
+        .income-expense {
+            display: flex;
+            justify-content: space-between;
+        }
+        .income-list, .expense-list {
+            width: 45%;
+        }
+        .spacer {
+            height: 50px;
+        }
+
+    </style>
+
+</head>
+<body>
+        <table>
+            <tr>
+                <td colspan="5" class="title">PERSONAL PROFIT AND LOSS</td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td>Name</td><td id="name">Chan Tai Man</td>
+            </tr>
+            <tr>
+                <td>Time Period Covered</td><td id="timeperiod">December 2024</td>
+            </tr>
+         </table>
+        <table>
+            <tr>
+                <td colspan="5" class="income-expense">
+
+                    <div class="income-list">
+                        <div class="income">INCOME</div>
+                        <table>
+                            <tr><td>Salary</td><td id="salary">0</td></tr>
+                            <tr><td>Investment</td><td id="investment">0</td></tr>
+                            <tr><td>Bonus</td><td id="bonus">0</td></tr>
+                            <tr><td>Part time</td><td id="PartTime">0</td></tr>
+                            <tr><td>Rental income</td><td id="RentalIncome">0</td></tr>
+                            <tr><td>Other income</td><td id="OtherIncome">0</td></tr>
+                            <tr class="total"><td>TOTAL INCOME</td><td id="TotalIncome">0</td></tr>
+                        </table>
+                        <div class="spacer"></div>
+                        <table>
+                            <tr><td class="net-income">NET INCOME</td></tr>
+                            <tr><td class="total">0</td></tr>
+                        </table>
+                    </div>
+
+                    <div class="expense-list">
+                        <div class="expenses">EXPENSES</div>
+                        <table>
+                            <tr><td>Transport</td><td id="transport">0</td></tr>
+                            <tr><td>Gathering</td><td id="gathering">0</td></tr>
+                            <tr><td>Gifts</td><td id="gifts">0</td></tr>
+                            <tr><td>Housing</td><td id="housing">0</td></tr>
+                            <tr><td>Clothing</td><td id="clothing">0</td></tr>
+                            <tr><td>Entertainment</td><td id="enterinment">0</td></tr>
+                            <tr><td>Beauty</td><td id="beauty">0</td></tr>
+                            <tr><td>Medicine</td><td id="medicine">0</td></tr>
+                            <tr><td>Education</td><td id="education">0</td></tr>
+                            <tr><td>Pet</td><td id="pet">0</td></tr>
+                            <tr><td>Holiday</td><td id="holiday">0</td></tr>
+                            <tr><td>Daily</td><td id="daily">0</td></tr>
+                            <tr><td>Taxes</td><td id="taxes">0</td></tr>
+                            <tr><td>Other Expenses</td><td id="OtherExpenses">0</td></tr>
+                            <tr class="total"><td>TOTAL EXPENSES</td><td id="TotalExpense">0</td></tr>
+                        </table>
+                    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+    <br>
+
+    <button id="statement" onclick="download_pdf()">Export PDF</button>
+
+    <script>
+        function download_pdf() {
+            const statment = document.getElementById('statement');
+            statement.style.display = 'none'; 
+            window.print();
+
+            statement.style.display = 'block'
+        }
+    </script>
+</body>
+</html>

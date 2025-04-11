@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Money Pro Max</title>
+    <link rel="manifest" href="./manifest.json" />
+    <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Nunito:400,700&display=swap');
+
+        * {
+            font-family: 'Nunito', sans-serif;
+        }
+        body {
+            margin: 0;
+        }
+        main {
+            display: flex;
+            flex-direction: row;
+        }
+
+        #drawer {
+            height: 100vh;
+            z-index: 1;
+            width: 25%;
+            box-shadow: rgba(0, 0, 0, 0.2) 0 0 1em 1px;
+        }
+
+        #outlet {
+            width: 75%;
+            height: 100vh;
+            border: 0;
+        }
+
+        #menu-switch {
+            list-style: none;
+            padding: 0;
+        }
+
+        .menuBtn {
+            padding: 5px;
+            font-size: x-large;
+        }
+
+        .menuBtn:hover {
+            background: rgba(52, 152, 219, 0.5);
+        }
+
+        .menuItemIcon {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        .menuBtn-selected {
+            background-color: dodgerblue;
+        }
+    </style>
+</head>
+<body>
+<main>
+
+    <nav id="drawer">
+        <img id="user-avatar" src="" alt="avatar">
+        <h3 id="username"></h3>
+        <ul id="menu-switch"></ul>
+    </nav>
+    <iframe
+            src="./Transaction.html"
+            id="outlet"
+    ></iframe>
+
+</main>
+<script>
+
+    var request = window.indexedDB.open("mainDB", 1);
+
+    request.onupgradeneeded = () => {
+        const db = request.result;
+        const store = db.createObjectStore("transactions", {keyPath: "id"});
+        store.createIndex("category", ["category"], {unique: false});
+        store.createIndex("subCategory", ["subCategory"], {unique: false});
+        store.createIndex("amount", ["amount"], {unique: false});
+        store.createIndex("notes", ["notes"], {unique: false});
+        store.createIndex("date", ["date"], {unique: false});
+    }
+
+    request.onsuccess = () => {
+        window.db = request.result;
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+        const routeMap = {
+            "Home": "404.html",
+            "Transaction": "Transaction.html",
+            "Trend": "404.html",
+            "Goals": "Saving_goal_reward.html",
+            "Balance": "404.html",
+            "Chart": "404.html",
+            "Activity Log": "404.html",
+            "Export Excel": "Profit&Loss.html",
+            "Login": "404.html",
+            "Setting": "404.html"
+        }
+
+        let parent = document.querySelector("#menu-switch");
+        Object.entries(routeMap).forEach(([tab, path]) => {
+            let menuItem = document.createElement("li");
+            let menuItemIcon = document.createElement("img");
+            let menuItemText = document.createElement("span");
+            menuItemIcon.src = `./icons/${tab}.png`;
+            menuItemIcon.classList.add("menuItemIcon");
+            menuItemText.innerText = tab;
+            menuItem.appendChild(menuItemIcon);
+            menuItem.appendChild(menuItemText);
+            menuItem.classList.add("menuBtn");
+
+            menuItem.onclick = () => {
+                document.querySelector("#outlet").src = `./${path}`;
+                document.querySelectorAll(".menuBtn").forEach(node => node.classList.remove("menuBtn-selected"));
+                menuItem.classList.add("menuBtn-selected");
+            }
+
+            parent.appendChild(menuItem);
+        })
+
+
+        // PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker
+                    .register('/serviceWorker.js')
+                    .then((res) => console.log('service worker registered'))
+                    .catch((err) => console.log('service worker not registered', err));
+            });
+        }
+    });
+
+</script>
+</body>
+</html>

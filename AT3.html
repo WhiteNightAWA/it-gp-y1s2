@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Transaction Input</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .main-content {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin: 0 0 20px;
+            font-size: 24px;
+        }
+
+        .category-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .category-btn {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        .category-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-1px);
+        }
+
+        .category-btn.active {
+            background-color: #2980b9;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            transform: translateY(0);
+        }
+
+        .subcategories {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            min-height: 40px;
+        }
+
+        .subcategory-btn {
+            background-color: #ecf0f1;
+            color: #333;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        .subcategory-btn:hover {
+            background-color: #dfe6e9;
+            transform: translateY(-1px);
+        }
+
+        .subcategory-btn.active {
+            background-color: #3498db;
+            color: white;
+            transform: translateY(0);
+        }
+
+        .input-field {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+            outline: none;
+        }
+
+        input[readonly] {
+            background-color: #f8f9fa;
+            cursor: default;
+        }
+
+        #SetAmountBtn {
+            background-color: #27ae60;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        #SetAmountBtn:hover {
+            background-color: #219653;
+            transform: translateY(-1px);
+        }
+
+        .calculator {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0. LIV1);
+        }
+
+        #display {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 18px;
+            text-align: right;
+            margin-bottom: 15px;
+            background-color: #f8f9fa;
+            box-sizing: border-box;
+        }
+
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        #numpad button {
+            background-color: #ecf0f1;
+            color: #333;
+            padding: 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        #numpad button:hover {
+            background-color: #dfe6e9;
+            transform: translateY(-1px);
+        }
+
+        #equals-btn {
+            background-color: #3498db;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 500;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        #equals-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-1px);
+        }
+
+        #clear-btn {
+            background-color: #e74c3c;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 500;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        #clear-btn:hover {
+            background-color: #c0392b;
+            transform: translateY(-1px);
+        }
+
+        #getData {
+            max-width: 600px;
+            margin: 0 auto;
+            display: block;
+            background-color: #3498db;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        #getData:hover {
+            background-color: #2980b9;
+            transform: translateY(-1px);
+        }
+
+        .error-message {
+            color: #e74c3c;
+            text-align: center;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+
+        @media (max-width: 600px) {
+            .main-content, .calculator {
+                margin: 0 10px;
+                padding: 15px;
+            }
+
+            .category-btn, .subcategory-btn, #SetAmountBtn, #equals-btn, #clear-btn, #getData {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            input[type="text"], #display {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            .keypad {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 6px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="main-content">
+    <h2>Add Transaction</h2>
+    <div class="category-buttons">
+        <button class="category-btn" id="expenses-btn">Expenses</button>
+        <button class="category-btn" id="income-btn">Income</button>
+    </div>
+    <div class="subcategories" id="subcategories"></div>
+    <div class="input-field">
+        <input type="text" id="amount" value="$0" readonly>
+        <input type="text" id="note" placeholder="Note">
+    </div>
+    <button id="SetAmountBtn">Save Transaction</button>
+</div>
+<div class="calculator">
+    <input type="text" id="display" value="0" readonly>
+    <div class="keypad">
+        <div id="numpad"></div>
+        <button id="equals-btn">=</button>
+        <button id="clear-btn">C</button>
+    </div>
+</div>
+<button id="getData">Get All Transactions</button>
+<script type="module">
+    // Mock categories (replace with dataprocess.js when ready)
+    const cats = {
+        expense: ["Food", "Transport", "Utilities", "Entertainment"],
+        income: ["Salary", "Freelance", "Investments", "Gifts"]
+    };
+    // Uncomment for dataprocess.js:
+    // import { getCat, getTransactions, saveTransaction } from "./dataprocess.js";
+    // const cats = getCat();
+
+    console.log("Categories:", cats);
+
+    const expenseCategories = cats.expense || [];
+    const incomeCategories = cats.income || [];
+
+    let selectedCategory = "Expenses";
+    let selectedSubcategory = "";
+    let currentAmount = 0;
+    let currentNote = "";
+    let transactions = [];
+
+    function selectCategory(category) {
+        try {
+            console.log("Selecting category:", category);
+            selectedCategory = category;
+            document.querySelectorAll(".category-btn").forEach(btn => {
+                btn.classList.remove("active");
+                if (btn.textContent === category) {
+                    btn.classList.add("active");
+                }
+            });
+
+            const subcategories = category === "Expenses" ? expenseCategories : incomeCategories;
+            const subcategoryContainer = document.getElementById("subcategories");
+            subcategoryContainer.innerHTML = "";
+            console.log("Subcategories:", subcategories);
+
+            if (!subcategories || subcategories.length === 0) {
+                subcategoryContainer.innerHTML = '<p class="error-message">No subcategories available.</p>';
+                console.warn("No subcategories for", category);
+                return;
+            }
+
+            subcategories.forEach(sub => {
+                const btn = document.createElement("button");
+                btn.classList.add("subcategory-btn");
+                btn.textContent = sub;
+                btn.onclick = () => selectSubcategory(sub);
+                subcategoryContainer.appendChild(btn);
+            });
+            selectedSubcategory = "";
+        } catch (error) {
+            console.error("Error in selectCategory:", error);
+            document.getElementById("subcategories").innerHTML = '<p class="error-message">Error loading subcategories.</p>';
+        }
+    }
+
+    function selectSubcategory(subcategory) {
+        console.log("Selecting subcategory:", subcategory);
+        selectedSubcategory = subcategory;
+        document.querySelectorAll(".subcategory-btn").forEach(btn => {
+            btn.classList.remove("active");
+            if (btn.textContent === subcategory) {
+                btn.classList.add("active");
+            }
+        });
+        document.querySelector(".calculator").scrollIntoView({ behavior: "smooth" });
+    }
+
+    let displayValue = "0";
+
+    function appendToDisplay(value) {
+        if (displayValue === "0" && value !== "." && !isNaN(value)) {
+            displayValue = value;
+        } else if (displayValue === "Error") {
+            displayValue = value;
+        } else {
+            displayValue += value;
+        }
+        document.getElementById("display").value = displayValue;
+    }
+
+    function clearDisplay() {
+        displayValue = "0";
+        document.getElementById("display").value = displayValue;
+    }
+
+    function calculate() {
+        try {
+            let expression = displayValue.replace(/×/g, '*').replace(/÷/g, '/');
+            displayValue = eval(expression).toString();
+            if (displayValue === "Infinity" || displayValue === "-Infinity") {
+                throw new Error("Division by zero");
+            }
+            if (displayValue.includes('.')) {
+                displayValue = parseFloat(displayValue).toFixed(2);
+            }
+            document.getElementById("display").value = displayValue;
+
+            // Instantly update amount field
+            currentAmount = parseFloat(displayValue) || 0;
+            document.getElementById("amount").value = "$" + currentAmount.toFixed(2);
+
+            // Optionally save transaction if subcategory is selected
+            if (selectedSubcategory) {
+                saveTransaction();
+            }
+        } catch (e) {
+            displayValue = "Error";
+            document.getElementById("display").value = displayValue;
+            setTimeout(clearDisplay, 1000);
+        }
+    }
+
+    function saveTransaction() {
+        if (!selectedSubcategory) {
+            return; // Don’t save if no subcategory (allows "=" to update amount without saving)
+        }
+
+        currentNote = document.getElementById("note").value || "";
+        const transaction = {
+            category: selectedCategory,
+            subcategory: selectedSubcategory,
+            amount: currentAmount,
+            notes: currentNote,
+            date: (new Date()).valueOf(),
+        };
+        transactions.push(transaction);
+
+        console.log("Transaction saved:", transaction);
+
+        // Uncomment when dataprocess.js is ready:
+        // saveTransaction(...Object.values(transaction));
+
+        // Reset fields
+        currentAmount = 0;
+        currentNote = "";
+        document.getElementById("note").value = "";
+        selectedSubcategory = "";
+        document.getElementById("amount").value = "$0";
+        document.querySelectorAll(".subcategory-btn").forEach(btn => btn.classList.remove("active"));
+        clearDisplay();
+    }
+
+    window.addEventListener("DOMContentLoaded", function() {
+        selectCategory("Expenses");
+        document.querySelector("#SetAmountBtn").onclick = saveTransaction;
+        document.querySelector("#expenses-btn").onclick = () => selectCategory("Expenses");
+        document.querySelector("#income-btn").onclick = () => selectCategory("Income");
+
+        ["7", "8", "9",
+         "4", "5", "6",
+         "1", "2", "3",
+         "0", "00", ".",
+         "+", "-", "*", "/"].forEach((i) => {
+            let ele = document.createElement("button");
+            ele.textContent = i;
+            ele.onclick = () => appendToDisplay(i);
+            document.querySelector("#numpad").appendChild(ele);
+        });
+
+        document.querySelector("#equals-btn").onclick = calculate;
+        document.querySelector("#clear-btn").onclick = clearDisplay;
+        document.querySelector("#getData").onclick = () => console.log("Transactions:", transactions);
+    });
+</script>
+</body>
+</html>

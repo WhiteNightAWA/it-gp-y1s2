@@ -1,0 +1,10 @@
+{
+  "name": "Money Pro Max",
+  "short_name": "MoneyPM",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#fdfdfd",
+  "theme_color": "#fffff",
+  "orientation": "portrait-primary",
+  "icons": []
+}

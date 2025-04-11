@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Savings Goal Calculator with Rewards</title>
+    <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f7fa;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto 30px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    h2, h3 {
+      color: #2c3e50;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .input-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #34495e;
+    }
+
+    input[type="number"], input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+    }
+
+    input:focus {
+      border-color: #3498db;
+      outline: none;
+    }
+
+    .annotation {
+      font-size: 12px;
+      color: #7f8c8d;
+      display: block;
+      margin-top: 5px;
+    }
+
+    button {
+      background-color: #3498db;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .result-box {
+      margin-top: 20px;
+      padding: 15px;
+      background: #ecf0f1;
+      border-radius: 5px;
+    }
+
+    .result-box p {
+      margin: 10px 0;
+      line-height: 1.5;
+    }
+
+    .goals-container {
+      max-width: 600px;
+      margin: 0 auto 30px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .goal-item {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .goal-item:last-child {
+      border-bottom: none;
+    }
+
+    .goal-item p {
+      margin: 5px 0;
+    }
+
+    .claimButton {
+      background-color: #27ae60;
+      padding: 8px 15px;
+      margin-top: 10px;
+      width: auto;
+    }
+
+    .claimButton:hover {
+      background-color: #219653;
+    }
+
+    .goal-item button:not(.claimButton) {
+      background-color: #e74c3c;
+      padding: 8px 15px;
+      margin-top: 10px;
+      width: auto;
+    }
+
+    .goal-item button:not(.claimButton):hover {
+      background-color: #c0392b;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .leaderboard {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #3498db;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    @media (max-width: 600px) {
+      .container, .goals-container, .leaderboard {
+        margin: 0 10px;
+        padding: 15px;
+      }
+
+      button {
+        font-size: 14px;
+      }
+
+      input[type="number"], input[type="text"] {
+        font-size: 14px;
+      }
+    }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>Savings Goal Planner</h2>
+
+      <div class="input-group">
+        <label for="monthlyIncome">Monthly Income ($):</label>
+        <input
+          type="number"
+          id="monthlyIncome"
+          min="0"
+          step="0.01"
+          placeholder="2000"
+        />
+        <span class="annotation">Total monthly earnings</span>
+      </div>
+
+      <div class="input-group">
+        <label for="goalName">Goal Name:</label>
+        <input type="text" id="goalName" placeholder="e.g., New Car" />
+      </div>
+
+      <div class="input-group">
+        <label for="goalAmount">Target Amount ($):</label>
+        <input
+          type="number"
+          id="goalAmount"
+          min="1"
+          step="0.01"
+          placeholder="1000"
+        />
+      </div>
+
+      <div class="input-group">
+        <label for="monthlyContribution">Goal Saving($):</label>
+        <input
+          type="number"
+          id="monthlyContribution"
+          min="1"
+          step="0.01"
+          placeholder="50"
+        />
+      </div>
+
+      <div class="input-group">
+        <label for="bankSavings">Uncounted Saving($):</label>
+        <input
+          type="number"
+          id="bankSavings"
+          min="0"
+          step="0.01"
+          placeholder="0"
+        />
+        <span class="annotation">Amount not counted toward goal</span>
+      </div>
+
+      <div class="input-group">
+        <label for="currentSavings">Current Saving($):</label>
+        <input
+          type="number"
+          id="currentSavings"
+          min="0"
+          step="0.01"
+          placeholder="0"
+        />
+        <span class="annotation">Total savings across all goals</span>
+      </div>
+
+      <button onclick="calculateAndSaveGoal()">Calculate & Save Goal</button>
+
+      <div class="result-box" id="results" style="display: none">
+        <h3>Goal Results</h3>
+        <p id="goalDisplay"></p>
+        <p id="amountLeft"></p>
+        <p id="timeNeeded"></p>
+        <p id="progress"></p>
+      </div>
+    </div>
+
+    <div class="goals-container">
+      <h3>Ongoing Savings Goals</h3>
+      <div id="goalsList"></div>
+    </div>
+
+    <div class="leaderboard">
+      <h3>Leaderboard</h3>
+      <table id="leaderboardTable">
+        <tr>
+          <th>Rank</th>
+          <th>Name</th>
+          <th>Level</th>
+        </tr>
+      </table>
+    </div>
+
+    <script>
+      let storage = JSON.parse(localStorage.getItem("savingsData")) || {
+        goals: [],
+        currentSavings: 0,
+      };
+      let goals = storage.goals;
+      let currentSavings = storage.currentSavings;
+      let userLevel = parseInt(localStorage.getItem("userLevel")) || 1;
+///on9leaderboard
+      const leaderboard = [
+        { name: "Honson", level: 5 },
+        { name: "Evan", level: 3 },
+        { name: "Hero", level: 7 },
+        { name: "Player", level: userLevel },
+      ];
+
+      function saveStorage() {
+        storage.goals = goals;
+        storage.currentSavings = currentSavings;
+        localStorage.setItem("savingsData", JSON.stringify(storage));
+      }
+
+      function calculateAndSaveGoal() {
+
+        const monthlyIncome =
+          parseFloat(document.getElementById("monthlyIncome").value) || 0;
+        const goalName =
+          document.getElementById("goalName").value || "Unnamed Goal";
+        const goalAmount =
+          parseFloat(document.getElementById("goalAmount").value) || 0;
+        const monthlyContribution =
+          parseFloat(document.getElementById("monthlyContribution").value) || 0;
+        const bankSavings =
+          parseFloat(document.getElementById("bankSavings").value) || 0;
+        currentSavings =
+          parseFloat(document.getElementById("currentSavings").value) || 0;
+
+        if (goalAmount <= 0 || monthlyContribution <= 0) {
+          alert(
+            "Please enter valid positive numbers for Target Amount and Monthly Savings"
+          );
+          return;
+        }
+        if (monthlyContribution + bankSavings > monthlyIncome) {
+          alert("Total monthly savings cannot exceed Monthly Income");
+          return;
+        }
+
+        const effectiveMonthly = monthlyContribution - bankSavings;
+        if (effectiveMonthly <= 0) {
+          alert("Monthly Savings must be greater than Bank Savings");
+          return;
+        }
+
+        const remainingAmount = goalAmount - currentSavings;
+        const monthsNeeded =
+          remainingAmount > 0
+            ? Math.ceil(remainingAmount / effectiveMonthly)
+            : 0;
+        const progressPercentage = (
+          (currentSavings / goalAmount) *
+          100
+        ).toFixed(2);
+        const projectedDate = new Date();
+        projectedDate.setMonth(projectedDate.getMonth() + monthsNeeded);
+
+        const resultsDiv = document.getElementById("results");
+        document.getElementById("goalDisplay").innerHTML = `Goal: ${goalName} 
+                <span class="annotation">Your savings objective</span>`;
+
+        document.getElementById(
+          "amountLeft"
+        ).innerHTML = `Remaining Amount: $${remainingAmount.toFixed(2)} 
+                <span class="annotation">Amount still needed (excludes $${bankSavings} bank savings)</span>`;
+
+        document.getElementById(
+          "timeNeeded"
+        ).innerHTML = `Time Needed: ${monthsNeeded} months 
+                <span class="annotation">Based on $${effectiveMonthly}/month (Projected: ${projectedDate.toLocaleDateString()})</span>`;
+
+        document.getElementById(
+          "progress"
+        ).innerHTML = `Progress: ${progressPercentage}% 
+                <span class="annotation">Percentage of goal achieved</span>`;
+
+        resultsDiv.style.display = "block";
+
+        const goalData = {
+          id: Date.now(), 
+          goalName,
+          goalAmount,
+          monthlyContribution,
+          bankSavings,
+          currentSavings,
+          remainingAmount,
+          monthsNeeded,
+          progressPercentage,
+          projectedCompletionDate: projectedDate,
+          monthlyIncome,
+        };
+        goals.push(goalData);
+        saveStorage();
+        updateGoalsDisplay();
+
+        return goalData;
+      }
+
+      function updateGoalsDisplay() {
+        const goalsList = document.getElementById("goalsList");
+        goalsList.innerHTML = "";
+
+        if (goals.length === 0) {
+          goalsList.innerHTML = "No ongoing goals";
+          return;
+        }
+
+        goals.forEach((goal) => {
+          goal.currentSavings = currentSavings;
+          goal.remainingAmount = goal.goalAmount - currentSavings;
+          goal.progressPercentage = (
+            (currentSavings / goal.goalAmount) *
+            100
+          ).toFixed(2);
+          goal.monthsNeeded =
+            goal.remainingAmount > 0
+              ? Math.ceil(
+                  goal.remainingAmount /
+                    (goal.monthlyContribution - goal.bankSavings)
+                )
+              : 0;
+
+          const goalDiv = document.createElement("div");
+          goalDiv.className = "goal-item";
+          goalDiv.innerHTML = `
+                    <p>Goal: ${goal.goalName}</p>
+                    <p>Target: $${goal.goalAmount}</p>
+                    <p>Current Savings: $${goal.currentSavings}</p>
+                    <p>Progress: ${goal.progressPercentage}%</p>
+                    <button class="claimButton ${
+                      parseFloat(goal.progressPercentage) >= 100 ? "" : "hidden"
+                    }" 
+                            onclick="claimGoal(${goal.id})">Claim</button>
+                    <button onclick="deleteGoal(${goal.id})">Delete</button>
+                `;
+          goalsList.appendChild(goalDiv);
+        });
+        saveStorage();
+      }
+
+      function claimGoal(goalId) {
+        const goal = goals.find((g) => g.id === goalId);
+        if (!goal || parseFloat(goal.progressPercentage) < 100) return;
+
+       //5000蚊升1level
+        const levelsEarned = Math.floor(goal.currentSavings / 5000);
+        userLevel += levelsEarned;
+        localStorage.setItem("userLevel", userLevel);
+        updateLeaderboard();
+
+      //delete goal
+        goals = goals.filter((g) => g.id !== goalId);
+        saveStorage();
+        updateGoalsDisplay();
+        alert(
+          `Goal "${goal.goalName}" claimed! You gained ${levelsEarned} level(s). New Level: ${userLevel}`
+        );
+      }
+
+      function deleteGoal(goalId) {
+        goals = goals.filter((g) => g.id !== goalId);
+        saveStorage();
+        updateGoalsDisplay();
+      }
+
+      function updateLeaderboard() {
+        leaderboard.find((p) => p.name === "Player").level = userLevel;
+        leaderboard.sort((a, b) => b.level - a.level);
+
+        const table = document.getElementById("leaderboardTable");
+        while (table.rows.length > 1) table.deleteRow(1);
+
+        leaderboard.forEach((player, index) => {
+          const row = table.insertRow();
+          row.insertCell(0).textContent = index + 1;
+          row.insertCell(1).textContent = player.name;
+          row.insertCell(2).textContent = player.level;
+        });
+      }
+      updateLeaderboard();
+      updateGoalsDisplay();
+      document.getElementById("currentSavings").value = currentSavings;
+
+      document.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          calculateAndSaveGoal();
+        }
+      });
+    </script>
+  </body>
+</html>
